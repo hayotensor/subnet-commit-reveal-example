@@ -1,0 +1,5 @@
+[
+  { "owner": "party1", "key": "key-party1-abc123", "active": true },
+  { "owner": "party2", "key": "key-party2-xyz456", "active": true },
+  { "owner": "party3", "key": "key-party3-789qwe", "active": false }
+]
