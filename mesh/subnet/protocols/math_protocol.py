@@ -88,7 +88,7 @@ class MathProtocol(mp.context.ForkProcess, ServicerBase):
                     Start all functionality required for RPC methods here, in the child process.
 
                     Example:
-                        If the RPC method requires running inference, the model class(es) should be 
+                        If the RPC method requires running inference, the model class(es) should be
                         loaded here.
 
                     See mesh example
@@ -201,10 +201,9 @@ class MathProtocol(mp.context.ForkProcess, ServicerBase):
         """
         Don't allow other hosters to call inference on me if it matches
         the current epochs random consensus tensors
-        """        
+        """
         if self.authorizer is not None:
             caller_peer_id = extract_rsa_peer_id_from_ssh(request.auth.client_access_token.public_key)
-            print("rpc_math caller_peer_id", caller_peer_id)
             if not caller_peer_id.__eq__(self.peer_id):
                 # Don't bother pinging the decentralized storage unless we have to
                 run_inference = self.should_process_rpc("")

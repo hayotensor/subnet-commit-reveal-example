@@ -153,7 +153,11 @@ mesh-server-mock \
 #### Todo
 
 - Implement a database or JSON to persist scores locally without the use of a blockchain for live local testing.
-  - i.e., Store validator/attestor data to local db
+  - ✅ <s>Register node to local db</s>
+  - ✅ <s>Get live node dat from local db</s>
+  - ✅ <s>Store validator/attestor data to local db</s>
+  - ✅ <s>Get validator/attestor data from local db</s>
+  - Local node classification updating
 ---
 
 ## Contributing

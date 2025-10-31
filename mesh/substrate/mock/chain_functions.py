@@ -86,7 +86,7 @@ class MockHypertensor:
         )
 
     def get_rewards_validator(self, subnet_id: int, epoch: int):
-        return 1
+        return 6
 
     def propose_attestation(
         self,

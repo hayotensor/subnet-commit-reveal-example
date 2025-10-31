@@ -22,10 +22,11 @@ from mesh.dht.crypto import SignatureValidator
 from mesh.mesh_cli.api.api_utils import get_active_keys, load_api_keys
 from mesh.substrate.chain_functions import Hypertensor, KeypairFrom
 from mesh.substrate.mock.chain_functions import MockHypertensor
+from mesh.substrate.mock.local_chain_functions import LocalMockHypertensor
 from mesh.utils.authorizers.auth import SignatureAuthorizer
 from mesh.utils.authorizers.pos_auth import ProofOfStakeAuthorizer
 from mesh.utils.dht import get_node_heartbeats
-from mesh.utils.key import get_private_key
+from mesh.utils.key import get_peer_id_from_identity_path, get_private_key
 from mesh.utils.logging import get_logger, use_mesh_log_handler
 from mesh.utils.networking import log_visible_maddrs
 from mesh.utils.p2p_utils import extract_peer_ip_info, get_peers_ips
@@ -340,7 +341,22 @@ def main():
         else:
             hypertensor = Hypertensor(rpc, PHRASE)
     else:
-        hypertensor = MockHypertensor()
+        # hypertensor = MockHypertensor()
+        peer_id = get_peer_id_from_identity_path(args.identity_path)
+        reset_db = False
+        if args.initial_peers:
+            # Reset when deploying a new swarm
+            reset_db = True
+        hypertensor = LocalMockHypertensor(
+            subnet_id=subnet_id,
+            peer_id=peer_id,
+            subnet_node_id=0,
+            coldkey="",
+            hotkey="",
+            bootnode_peer_id="",
+            client_peer_id="",
+            reset_db=reset_db,
+        )
 
     pk = get_private_key(args.identity_path)
 

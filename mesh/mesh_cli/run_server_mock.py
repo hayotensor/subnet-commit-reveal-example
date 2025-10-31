@@ -11,9 +11,11 @@ from substrateinterface import Keypair, KeypairType
 from mesh.subnet.server.server import Server
 from mesh.substrate.chain_functions import Hypertensor, KeypairFrom
 from mesh.substrate.mock.chain_functions import MockHypertensor
+from mesh.substrate.mock.local_chain_functions import LocalMockHypertensor
 from mesh.utils import limits
 from mesh.utils.constants import PUBLIC_INITIAL_PEERS
 from mesh.utils.data_structures import ServerClass
+from mesh.utils.key import get_peer_id_from_identity_path
 from mesh.utils.logging import get_logger, use_mesh_log_handler
 
 load_dotenv(os.path.join(Path.cwd(), '.env'))
@@ -137,7 +139,22 @@ def main():
             hypertensor = Hypertensor(rpc, PHRASE)
     else:
         logger.info("Using MockHypertensor")
-        hypertensor = MockHypertensor()
+        # hypertensor = MockHypertensor()
+        peer_id = get_peer_id_from_identity_path(args["identity_path"])
+        reset_db = False
+        if args["new_swarm"]:
+            # Reset when deploying a new swarm
+            reset_db = True
+        hypertensor = LocalMockHypertensor(
+            subnet_id=subnet_id,
+            peer_id=peer_id,
+            subnet_node_id=subnet_node_id,
+            coldkey="",
+            hotkey="",
+            bootnode_peer_id="",
+            client_peer_id="",
+            reset_db=reset_db,
+        )
 
     # Auto get the onchain bootnodes
     if isinstance(hypertensor, Hypertensor):
