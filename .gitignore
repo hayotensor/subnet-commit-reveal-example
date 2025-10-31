@@ -99,3 +99,6 @@ mesh/mesh_cli/p2pd
 
 # DHT Bootnode API
 /bootnode_utils/*.json
+
+# SQlite
+*.db
